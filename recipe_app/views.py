@@ -6,13 +6,11 @@ def form(request):
         data= request.POST
         recipe_name=data.get('recipe_name')
         recipe_description=data.get('recipe_description')
-        # recipe_time= data.get('time')
         recipe_image=request.FILES.get('recipe_image')
         recipe_ingredients=data.get('recipe_ingredients')
         print(recipe_name)
         print(recipe_description)
         print(recipe_ingredients)
-        # print(recipe_time)
         print(recipe_image)
         Recipe.objects.create(recipe_name=recipe_name, recipe_ingredients=recipe_ingredients, recipe_description=recipe_description, recipe_image=recipe_image)
         messages.success(request, "Recipe added successfully")
@@ -26,4 +24,21 @@ def view_recipe(request):
 def delete_recipe(request, id):
     recipe=Recipe.objects.get(id=id)
     recipe.delete()
-    return redirect('/view_recipes/')
+    return redirect('/recipe_app/view_recipes/')
+
+def update_recipe(request, id):
+    recipe=Recipe.objects.get(id=id)
+    if request.method=='POST':
+        data= request.POST
+        recipe_name=data.get('recipe_name')
+        recipe_description=data.get('recipe_description')
+        recipe_image=request.FILES.get('recipe_image')
+        recipe_ingredients=data.get('recipe_ingredients')
+        recipe.recipe_name=recipe_name
+        recipe.recipe_description=recipe_description
+        recipe.recipe_ingredients=recipe_ingredients
+        recipe.recipe_image=recipe_image
+        recipe.save()
+        return redirect('/recipe_app/view_recipes/')
+
+    return render(request, 'update_recipe.html', {"recipes":recipe})
