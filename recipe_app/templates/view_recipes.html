@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recipes</title>
+</head>
+<body>
+    <h1>Recipes</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>SNo.</th>
+                <th>Recipe name</th>
+                <th>Recipe description</th>
+                <th>Recipe ingredients</th>
+                <th>Recipe image</th>
+                <th>Updates</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for recipe in recipes %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ recipe.recipe_name }}</td>
+                <td>{{ recipe.recipe_description }}</td>
+                <td>{{ recipe.recipe_ingredients }}</td>
+                <td>
+                    <img src="/media/{{ recipe.recipe_image }}", style="height: 150px; width: 200px;">
+                </td>
+                <td>
+                    <a href="/recipe_app/delete-recipe/{{recipe.id}}"class='btn btn-danger'>Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

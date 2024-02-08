@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
 from .models import *
 def form(request):
     if request.method=='POST':
@@ -14,5 +15,15 @@ def form(request):
         # print(recipe_time)
         print(recipe_image)
         Recipe.objects.create(recipe_name=recipe_name, recipe_ingredients=recipe_ingredients, recipe_description=recipe_description, recipe_image=recipe_image)
+        messages.success(request, "Recipe added successfully")
 
     return render(request, 'form.html')
+
+def view_recipe(request):
+    recipe=Recipe.objects.all()
+    return render(request, 'view_recipes.html', {"recipes":recipe})
+
+def delete_recipe(request, id):
+    recipe=Recipe.objects.get(id=id)
+    recipe.delete()
+    return redirect('/view_recipes/')
